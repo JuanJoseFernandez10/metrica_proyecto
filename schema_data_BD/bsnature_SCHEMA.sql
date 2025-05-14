@@ -66,6 +66,14 @@ CREATE TABLE Trato (
         REFERENCES Tipo_Trato(id) ON DELETE CASCADE
 );
 
+CREATE TABLE Hist_masc (
+    id VARCHAR2(20) NOT NULL,
+    fecha_alta DATE PRIMARY KEY,
+    fecha_baja DATE,
+    CONSTRAINT fk_mascota_historial FOREIGN KEY (id)
+        REFERENCES Mascota(Numero_Microchip) ON DELETE CASCADE
+);
+
 
 CREATE SEQUENCE seq_especie
 START WITH 1
@@ -87,9 +95,7 @@ BEFORE INSERT ON Especie
 FOR EACH ROW
 BEGIN
     IF :NEW.id IS NULL THEN
-        SELECT seq_especie.NEXTVAL
-        INTO :NEW.id
-        FROM dual;
+        SELECT seq_especie.NEXTVAL INTO :NEW.id FROM dual;
     END IF;
 END;
 /
@@ -99,9 +105,7 @@ BEFORE INSERT ON Trato
 FOR EACH ROW
 BEGIN
     IF :NEW.id IS NULL THEN
-        SELECT seq_trato.NEXTVAL
-        INTO :NEW.id
-        FROM dual;
+        SELECT seq_trato.NEXTVAL INTO :NEW.id FROM dual;
     END IF;
 END;
 /
@@ -111,9 +115,7 @@ BEFORE INSERT ON Tipo_Trato
 FOR EACH ROW
 BEGIN
     IF :NEW.id IS NULL THEN
-        SELECT seq_tipo_trato.NEXTVAL
-        INTO :NEW.id
-        FROM dual;
+        SELECT seq_tipo_trato.NEXTVAL INTO :NEW.id FROM dual;
     END IF;
 END;
 /
