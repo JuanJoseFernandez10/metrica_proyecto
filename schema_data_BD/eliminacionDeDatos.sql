@@ -1,0 +1,16 @@
+DELETE FROM Cliente_posee_Mascota;
+DELETE FROM Trato;
+DELETE FROM Mascota;
+DELETE FROM Cliente;
+DELETE FROM Trabajador;
+DELETE FROM Tipo_Trato;
+DELETE FROM Especie;
+
+/*Reiniciar secuencias*/
+DROP SEQUENCE seq_especie;
+DROP SEQUENCE seq_trato;
+DROP SEQUENCE seq_tipo_trato;
+
+CREATE SEQUENCE seq_especie START WITH 1 INCREMENT BY 1 NOCACHE;
+CREATE SEQUENCE seq_trato START WITH 1 INCREMENT BY 1 NOCACHE;
+CREATE SEQUENCE seq_tipo_trato START WITH 1 INCREMENT BY 1 NOCACHE;
