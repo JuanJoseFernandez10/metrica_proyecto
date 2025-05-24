@@ -4,9 +4,8 @@ CREATE TABLE Trabajador (
     DNI VARCHAR2(9) UNIQUE NOT NULL,
     nombre VARCHAR2(100) NOT NULL,
     fecha_contratacion DATE NOT NULL,
-    id_administrador VARCHAR2(50),
-    CONSTRAINT fk_trabajador_admin FOREIGN KEY (id_administrador)
-        REFERENCES Trabajador(usuario) ON DELETE CASCADE
+    es_admin NUMBER default 0 NOT NULL,
+    es_activo NUMBER DEFAULT 1
 );
 
 CREATE TABLE Cliente (
@@ -15,7 +14,8 @@ CREATE TABLE Cliente (
     DNI VARCHAR2(9) UNIQUE NOT NULL,
     nombre VARCHAR2(100) NOT NULL,
     telf VARCHAR2(15),
-    direccion VARCHAR2(200)
+    direccion VARCHAR2(200),
+    es_activo NUMBER DEFAULT 1
 );
 
 CREATE TABLE Especie (
@@ -24,18 +24,19 @@ CREATE TABLE Especie (
 );
 
 CREATE TABLE Mascota (
-    Numero_Microchip VARCHAR2(20) PRIMARY KEY,
+    Numero_Microchip VARCHAR(15) PRIMARY KEY,
     nombre VARCHAR2(100),
     fecha_nacimiento DATE,
     raza VARCHAR2(50),
     id_especie NUMBER NOT NULL,
+    adoptada NUMBER DEFAULT 0,
     CONSTRAINT fk_mascota_especie FOREIGN KEY (id_especie)
         REFERENCES Especie(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Cliente_posee_Mascota (
     id_cliente VARCHAR2(50),
-    id_mascota VARCHAR2(20),
+    id_mascota VARCHAR(15),
     fecha DATE,
     PRIMARY KEY (id_cliente, id_mascota),
     CONSTRAINT fk_posee_cliente FOREIGN KEY (id_cliente)
@@ -54,7 +55,7 @@ CREATE TABLE Trato (
     fecha_trato DATE NOT NULL,
     id_trabajador VARCHAR2(50),
     id_cliente VARCHAR2(50),
-    id_animal VARCHAR2(20),
+    id_animal VARCHAR(15),
     id_tipo NUMBER,
     CONSTRAINT fk_trato_trabajador FOREIGN KEY (id_trabajador)
         REFERENCES Trabajador(usuario) ON DELETE CASCADE,
@@ -64,14 +65,6 @@ CREATE TABLE Trato (
         REFERENCES Mascota(Numero_Microchip) ON DELETE CASCADE,
     CONSTRAINT fk_trato_tipo FOREIGN KEY (id_tipo)
         REFERENCES Tipo_Trato(id) ON DELETE CASCADE
-);
-
-CREATE TABLE Hist_masc (
-    id VARCHAR2(20) NOT NULL,
-    fecha_alta DATE PRIMARY KEY,
-    fecha_baja DATE,
-    CONSTRAINT fk_mascota_historial FOREIGN KEY (id)
-        REFERENCES Mascota(Numero_Microchip) ON DELETE CASCADE
 );
 
 
